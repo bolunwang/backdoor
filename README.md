@@ -37,7 +37,16 @@ We already included a sample of [infected model](models/gtsrb_bottom_right_white
 
 We use an anomaly detection algorithm that is based MAD (Median Absolute Deviation). A very useful explanation of MAD could be found [here](https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/). Our implementation reads all reversed triggers and detect any outlier with small size. Before you execute the code, please make sure the following configuration is correct.
 
-- **Path to reversed trigger**: you can specify the location where you put all reversed triggers [here]()
+- **Path to reversed trigger**: you can specify the location where you put all reversed triggers [here](mad_outlier_detection.py#L19-L20). Filename format in the sample code is consistent with previous code for reverse engineering.
+- **Meta info**: configure the correct meta information about the task and model correctly, so our analysis code could load reversed triggers with the correct shape. You need to specify the [input shape](mad_outlier_detection.py#L23-L25) and the [total # of labels](mad_outlier_detection.py#L28) in the model.
+
+To execute the sample code, simple run
+
+```bash
+python mad_outlier_detection.py
+```
+
+
 
 
 
