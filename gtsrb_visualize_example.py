@@ -45,20 +45,19 @@ INPUT_SHAPE = (IMG_ROWS, IMG_COLS, IMG_COLOR)
 NUM_CLASSES = 43  # total number of classes in the model
 Y_TARGET = 33  # infected target label, used for prioritizing label scanning
 
+INTENSITY_RANGE = 'raw'  # preprocessing method for the task, GTSRB uses raw pixel intensities
+
 # parameters for optimization
 BATCH_SIZE = 32  # batch size used for optimization
-
 LR = 0.1  # learning rate
 STEPS = 1000  # total optimization iterations
 NB_SAMPLE = 1000  # number of samples in each mini batch
 MINI_BATCH = NB_SAMPLE / BATCH_SIZE  # mini batch size used for early stop
 INIT_COST = 1e-3  # initial weight used for balancing two objectives
 
-# preprocessing method for the task, GTSRB uses raw pixel intensities
-INTENSITY_RANGE = 'raw'
 REGULARIZATION = 'l1'  # reg term to control the mask's norm
-# attack success threshold of the reversed attack
-ATTACK_SUCC_THRESHOLD = 0.99
+
+ATTACK_SUCC_THRESHOLD = 0.99  # attack success threshold of the reversed attack
 PATIENCE = 5  # patience for adjusting weight, number of mini batches
 COST_MULTIPLIER = 2  # multiplier for auto-control of weight (COST)
 SAVE_LAST = False  # whether to save the last result or best result
@@ -73,17 +72,17 @@ UPSAMPLE_SIZE = 1  # size of the super pixel
 MASK_SHAPE = np.ceil(np.array(INPUT_SHAPE[0:2], dtype=float) / UPSAMPLE_SIZE)
 MASK_SHAPE = MASK_SHAPE.astype(int)
 
-# parameters of the injected trigger
+# parameters of the original injected trigger
 # this is NOT used during optimization
 # start inclusive, end exclusive
-PATTERN_START_ROW, PATTERN_END_ROW = 27, 31
-PATTERN_START_COL, PATTERN_END_COL = 27, 31
-PATTERN_COLOR = (255.0, 255.0, 255.0)
-PATTERN_LIST = [
-    (row_idx, col_idx, PATTERN_COLOR)
-    for row_idx in range(PATTERN_START_ROW, PATTERN_END_ROW)
-    for col_idx in range(PATTERN_START_COL, PATTERN_END_COL)
-]
+# PATTERN_START_ROW, PATTERN_END_ROW = 27, 31
+# PATTERN_START_COL, PATTERN_END_COL = 27, 31
+# PATTERN_COLOR = (255.0, 255.0, 255.0)
+# PATTERN_LIST = [
+#     (row_idx, col_idx, PATTERN_COLOR)
+#     for row_idx in range(PATTERN_START_ROW, PATTERN_END_ROW)
+#     for col_idx in range(PATTERN_START_COL, PATTERN_END_COL)
+# ]
 
 ##############################
 #      END PARAMETERS        #
