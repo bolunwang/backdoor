@@ -29,7 +29,7 @@ import utils_backdoor
 DEVICE = '0'  # specify which GPU to use
 
 DATA_DIR = 'data'  # data folder
-DATA_FILE = 'gtsrb_dataset.h5'  # dataset file
+DATA_FILE = 'gtsrb_dataset_int.h5'  # dataset file
 MODEL_DIR = 'models'  # model directory
 MODEL_FILENAME = 'gtsrb_bottom_right_white_4_target_33.h5'  # model file
 RESULT_DIR = 'results'  # directory for storing results
@@ -92,48 +92,24 @@ PATTERN_LIST = [
 
 def load_dataset(data_file=('%s/%s' % (DATA_DIR, DATA_FILE))):
 
-    dataset = utils_keras.load_dataset(data_file)
+    dataset = utils_backdoor.load_dataset(data_file, keys=['X_test', 'Y_test'])
 
-    X_train = dataset['X_train']
-    Y_train = dataset['Y_train']
-    X_test = dataset['X_test']
-    Y_test = dataset['Y_test']
+    X_test = np.array(dataset['X_test'], dtype='float32')
+    Y_test = np.array(dataset['Y_test'], dtype='float32')
 
-    print('X_train shape %s' % str(X_train.shape))
-    print('Y_train shape %s' % str(Y_train.shape))
     print('X_test shape %s' % str(X_test.shape))
     print('Y_test shape %s' % str(Y_test.shape))
 
-    return X_train, Y_train, X_test, Y_test
+    return X_test, Y_test
 
 
-def build_data_loader(X_train, Y_train, X_test, Y_test):
+def build_data_loader(X, Y):
 
-    train_datagen = ImageDataGenerator()
-    train_generator = train_datagen.flow(
-        X_train, Y_train, batch_size=BATCH_SIZE)
+    datagen = ImageDataGenerator()
+    generator = datagen.flow(
+        X, Y, batch_size=BATCH_SIZE)
 
-    test_datagen = ImageDataGenerator()
-    test_generator = test_datagen.flow(
-        X_test, Y_test, batch_size=BATCH_SIZE)
-
-    return train_generator, test_generator
-
-
-def gen_corner_mask():
-
-    mask = np.zeros(MASK_SHAPE)
-    centroid = (MASK_SHAPE - 1.0) / 2.0
-    for row_idx in range(MASK_SHAPE[0]):
-        for col_idx in range(MASK_SHAPE[1]):
-            mask[row_idx, col_idx] = (
-                1.0 *
-                (np.square(centroid[0] - row_idx) +
-                 np.square(centroid[1] - col_idx)) /
-                np.sum(np.square(centroid)))
-    mask = np.clip(mask, 0, 1)
-
-    return mask
+    return generator
 
 
 def visualize_trigger_w_mask(visualizer, gen, y_target,
@@ -141,16 +117,15 @@ def visualize_trigger_w_mask(visualizer, gen, y_target,
 
     visualize_start_time = time.time()
 
-    # random mask
-    pattern = np.random.random(INPUT_SHAPE)
-    pattern = (np.ones_like(pattern) - pattern * 1.0) * 255.0
+    # initialize with random mask
+    pattern = np.random.random(INPUT_SHAPE) * 255.0
     mask = np.random.random(MASK_SHAPE)
-    mask = np.ones_like(mask) * 1.0 - mask * 1.0
-    # mask = gen_corner_mask()
 
+    # execute reverse engineering
     pattern, mask, mask_upsample, logs = visualizer.visualize(
         gen=gen, y_target=y_target, pattern_init=pattern, mask_init=mask)
 
+    # meta data about the generated mask
     print('pattern, shape: %s, min: %f, max: %f' %
           (str(pattern.shape), np.min(pattern), np.max(pattern)))
     print('mask, shape: %s, min: %f, max: %f' %
@@ -159,7 +134,6 @@ def visualize_trigger_w_mask(visualizer, gen, y_target,
           (y_target, np.sum(np.abs(mask_upsample))))
 
     visualize_end_time = time.time()
-
     print('visualization cost %f seconds' %
           (visualize_end_time - visualize_start_time))
 
@@ -174,51 +148,34 @@ def save_pattern(pattern, mask, y_target):
     img_filename = (
         '%s/%s' % (RESULT_DIR,
                    IMG_FILENAME_TEMPLATE % ('pattern', y_target)))
-    utils_keras.dump_image(pattern, img_filename, 'png')
+    utils_backdoor.dump_image(pattern, img_filename, 'png')
 
     img_filename = (
         '%s/%s' % (RESULT_DIR,
                    IMG_FILENAME_TEMPLATE % ('mask', y_target)))
-    utils_keras.dump_image(np.expand_dims(mask, axis=2) * 255,
-                           img_filename,
-                           'png')
+    utils_backdoor.dump_image(np.expand_dims(mask, axis=2) * 255,
+                              img_filename,
+                              'png')
 
     fusion = np.multiply(pattern, np.expand_dims(mask, axis=2))
     img_filename = (
         '%s/%s' % (RESULT_DIR,
                    IMG_FILENAME_TEMPLATE % ('fusion', y_target)))
-    utils_keras.dump_image(fusion, img_filename, 'png')
-
-    pass
-
-
-def save_log_mapping(log_mapping):
-
-    raw_log_file = '%s/%s' % (RESULT_DIR, RAW_LOG_FILENAME_TEMPLATE)
-    pickle.dump(log_mapping, open(raw_log_file, 'w'))
+    utils_backdoor.dump_image(fusion, img_filename, 'png')
 
     pass
 
 
 def gtsrb_visualize_label_scan_bottom_right_white_4():
 
-    config.logger.info('loading dataset')
-    X_train, Y_train, X_test, Y_test = load_dataset()
+    print('loading dataset')
+    X_test, Y_test = load_dataset()
+    # transform numpy arrays into data generator
+    test_generator = build_data_loader(X_test, Y_test)
 
-    train_generator, test_generator = build_data_loader(
-        X_train, Y_train, X_test, Y_test)
-
-    config.logger.info('loading model')
+    print('loading model')
     model_file = '%s/%s' % (MODEL_DIR, MODEL_FILENAME)
     model = load_model(model_file)
-
-    # evaluate injected trigger
-    # pattern, mask = utils_keras.create_pattern(INPUT_SHAPE, PATTERN_LIST)
-    # utils_keras.eval_pattern(
-    #     model, X_test, Y_test, pattern, mask,
-    #     Y_TARGET, NUM_CLASSES, method=INTENSITY_RANGE, verbose=1)
-
-    # sys.exit(1)
 
     # initialize visualizer
     visualizer = Visualizer(
@@ -232,30 +189,24 @@ def gtsrb_visualize_label_scan_bottom_right_white_4():
         img_color=IMG_COLOR, batch_size=BATCH_SIZE, verbose=2,
         save_last=SAVE_LAST,
         early_stop=EARLY_STOP, early_stop_threshold=EARLY_STOP_THRESHOLD,
-        early_stop_patience=EARLY_STOP_PATIENCE,
-        save_tmp=False, tmp_dir='/mnt/data/bolunwang/backdoor/tmp_gtsrb')
+        early_stop_patience=EARLY_STOP_PATIENCE)
 
     log_mapping = {}
 
-    # for y_target in [Y_TARGET, 12]:
+    # in the sample code, we only reverse engineer the infected label and
+    # one other uninfected label
     y_target_list = range(NUM_CLASSES)
     y_target_list.remove(Y_TARGET)
-    y_target_list = [Y_TARGET] + y_target_list
+    y_target_list = [Y_TARGET] + y_target_list[:1]
     for y_target in y_target_list:
 
-        config.logger.info('processing label %d' % y_target)
-
-        # X_sample, Y_sample = utils_keras.sample_data(
-        #     X_train, Y_train, nb_sample=NB_SAMPLE, num_classes=NUM_CLASSES,
-        #     exclude_labels=set([y_target]))
+        print('processing label %d' % y_target)
 
         _, _, logs = visualize_trigger_w_mask(
-            visualizer, train_generator, y_target=y_target,
+            visualizer, test_generator, y_target=y_target,
             save_pattern_flag=True)
 
         log_mapping[y_target] = logs
-
-        save_log_mapping(log_mapping)
 
     pass
 
@@ -263,7 +214,7 @@ def gtsrb_visualize_label_scan_bottom_right_white_4():
 def main():
 
     os.environ["CUDA_VISIBLE_DEVICES"] = DEVICE
-    utils_keras.fix_gpu_memory()
+    utils_backdoor.fix_gpu_memory()
     gtsrb_visualize_label_scan_bottom_right_white_4()
 
     pass
@@ -274,4 +225,4 @@ if __name__ == '__main__':
     start_time = time.time()
     main()
     elapsed_time = time.time() - start_time
-    print('elapsed time %s s' % HMString(elapsed_time))
+    print('elapsed time %s s' % elapsed_time)
