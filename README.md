@@ -22,14 +22,54 @@ We include a sample script demonstrating how to perform the reverse engineering 
 
 - **GPU device**: if you are using GPU, specify which GPU you would like to use by setting the [DEVICE](gtsrb_visualize_example.py#L29) variable
 - **Data/model/result folder**: if you are using the code on your own models and datasets, please specify the path to the data/model/result files. They are specified by variables [here](gtsrb_visualize_example.py#L31-L37).
-- **Meta info**: if you are testing it on your own model, please specify the correct meta information about the task, including [input size](gtsrb_visualize_example.py#L40-L42), [total # of labels](gtsrb_visualize_example.py#L45), and [infected label](gtsrb_visualize_example.py#L46) (optional).
-- **Configuration of the optimization**: There are [several parameters]() you could configure for the optimization process, including learning rate, 
+- **Meta info**: if you are testing it on your own model, please specify the correct meta information about the task, including [input size](gtsrb_visualize_example.py#L40-L42), [preprocessing method](gtsrb_visualize_example.py#L48), [total # of labels](gtsrb_visualize_example.py#L45), and [infected label](gtsrb_visualize_example.py#L46) (optional).
+- **Configuration of the optimization**: There are [several parameters](gtsrb_visualize_example.py#L50-L67) you could configure for the optimization process, including learning rate, batch size, # of samples per iteration, total # of iterations, initial value for weight balance, etc. Most parameters fit all models we tested, and you should be able to use the same configuration for your task as well.
 
 To execute the python script, simply run
 
 ```bash
 python gtsrb_visualize_example.py
 ```
+
+We already included a sample of [infected model](models/gtsrb_bottom_right_white_4_target_33.h5) for traffic sign recognition in the repo, along with the [testing data](data/gtsrb_dataset_int.h5) used for reverse engineering. The sample code uses this model/dateset by default.
+
+#### Anomaly Detection
+
+We use an anomaly detection algorithm that is based MAD (Median Absolute Deviation). A very useful explanation of MAD could be found [here](https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/). Our implementation reads all reversed triggers and detect any outlier with small size. Before you execute the code, please make sure the following configuration is correct.
+
+- **Path to reversed trigger**: you can specify the location where you put all reversed triggers [here]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
