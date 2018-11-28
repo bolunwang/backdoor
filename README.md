@@ -46,7 +46,15 @@ To execute the sample code, simple run
 python mad_outlier_detection.py
 ```
 
+Below is a snippet of the output of outlier detection, in the infected GTSRB model (traffic sign recognition).
 
+```
+median: 64.466667, mad: 13.238736
+min_mad: 3.652087
+flagged label list: 33: 16.117647
+```
+
+Line #2 shows the final anomaly index is 3.652, which suggests the model is infected. Line #3 shows the outlier detection algorithm flags only 1 label (label 33), which has a trigger with L1 norm of 16.1.
 
 
 

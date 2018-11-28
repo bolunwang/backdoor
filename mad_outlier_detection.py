@@ -53,7 +53,8 @@ def outlier_detection(l1_norm_list, idx_mapping):
         flag_list = sorted(flag_list, key=lambda x: x[1])
 
     print('flagged label list: %s' %
-          ', '.join(['%d: %2f' for y_label, l_norm in flag_list]))
+          ', '.join(['%d: %2f' % (y_label, l_norm)
+                     for y_label, l_norm in flag_list]))
 
     pass
 
@@ -68,7 +69,7 @@ def analyze_pattern_norm_dist():
         if os.path.isfile('%s/%s' % (RESULT_DIR, mask_filename)):
             img = image.load_img(
                 '%s/%s' % (RESULT_DIR, mask_filename),
-                grayscale=True,
+                color_mode='grayscale',
                 target_size=INPUT_SHAPE)
             mask = image.img_to_array(img)
             mask /= 255
@@ -94,4 +95,4 @@ if __name__ == '__main__':
     start_time = time.time()
     analyze_pattern_norm_dist()
     elapsed_time = time.time() - start_time
-    print('elapsed time %s s' % elapsed_time)
+    print('elapsed time %.2f s' % elapsed_time)
