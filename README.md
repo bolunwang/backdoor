@@ -49,8 +49,8 @@ python mad_outlier_detection.py
 Below is a snippet of the output of outlier detection, in the infected GTSRB model (traffic sign recognition).
 
 ```
-median: 64.466667, mad: 13.238736
-min_mad: 3.652087
+median: 64.466667, MAD: 13.238736
+anomaly index: 3.652087
 flagged label list: 33: 16.117647
 ```
 

@@ -39,8 +39,8 @@ def outlier_detection(l1_norm_list, idx_mapping):
     mad = consistency_constant * np.median(np.abs(l1_norm_list - median))
     min_mad = np.abs(np.min(l1_norm_list) - median) / mad
 
-    print('median: %f, mad: %f' % (median, mad))
-    print('min_mad: %f' % min_mad)
+    print('median: %f, MAD: %f' % (median, mad))
+    print('anomaly index: %f' % min_mad)
 
     flag_list = []
     for y_label in idx_mapping:
