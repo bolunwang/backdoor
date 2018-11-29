@@ -1,7 +1,7 @@
 # Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks
 ### ABOUT
 
-This repository contains code implementation of the paper "[Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks]()", at *IEEE Security and Privacy 2019*.
+This repository contains code implementation of the paper "[Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks](https://cs.ucsb.edu/~bolunwang/assets/docs/backdoor-sp19.pdf)", at *IEEE Security and Privacy 2019*.
 
 ### DEPENDENCIES
 
