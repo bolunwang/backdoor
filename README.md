@@ -31,7 +31,7 @@ To execute the python script, simply run
 python gtsrb_visualize_example.py
 ```
 
-We already included a sample of [infected model](models/gtsrb_bottom_right_white_4_target_33.h5) for traffic sign recognition in the repo, along with the [testing data](data/gtsrb_dataset_int.h5) used for reverse engineering. The sample code uses this model/dateset by default. The entire process for examining all labels in the traffic sign recognition model takes roughly 10 min. All reverse engineered triggers (mask, delta) will be stored under RESULT_DIR. You can also specify which labels you would like to focus on. You could configure it yourself by changing the [following code](gtsrb_visualize_example.py#L197-L200).
+We already included a sample of [infected model](models/gtsrb_bottom_right_white_4_target_33.h5) for traffic sign recognition in the repo, along with the [testing data](data/gtsrb_dataset_int.h5) used for reverse engineering. The sample code uses this model/dateset by default. The entire process for examining all labels in the traffic sign recognition model takes roughly 10 min. All reverse engineered triggers (mask, delta) will be stored under RESULT_DIR. You can also specify which labels you would like to focus on. You could configure it yourself by changing the [following code](gtsrb_visualize_example.py#L200-L201).
 
 #### Anomaly Detection
 

@@ -144,11 +144,13 @@ def visualize_trigger_w_mask(visualizer, gen, y_target,
 
 def save_pattern(pattern, mask, y_target):
 
+    # create result dir
+    if not os.path.exists(RESULT_DIR):
+        os.mkdir(RESULT_DIR)
+
     img_filename = (
         '%s/%s' % (RESULT_DIR,
                    IMG_FILENAME_TEMPLATE % ('pattern', y_target)))
-    if not os.path.exists(RESULT_DIR):
-        os.mkdir(RESULT_DIR)
     utils_backdoor.dump_image(pattern, img_filename, 'png')
 
     img_filename = (
