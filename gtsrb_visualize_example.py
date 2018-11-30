@@ -147,6 +147,8 @@ def save_pattern(pattern, mask, y_target):
     img_filename = (
         '%s/%s' % (RESULT_DIR,
                    IMG_FILENAME_TEMPLATE % ('pattern', y_target)))
+    if not os.path.exists(RESULT_DIR):
+        os.mkdir(RESULT_DIR)
     utils_backdoor.dump_image(pattern, img_filename, 'png')
 
     img_filename = (
