@@ -43,7 +43,7 @@ IMG_COLOR = 3
 INPUT_SHAPE = (IMG_ROWS, IMG_COLS, IMG_COLOR)
 
 NUM_CLASSES = 43  # total number of classes in the model
-Y_TARGET = 33  # infected target label, used for prioritizing label scanning
+Y_TARGET = 33  # (optional) infected target label, used for prioritizing label scanning
 
 INTENSITY_RANGE = 'raw'  # preprocessing method for the task, GTSRB uses raw pixel intensities
 
@@ -194,11 +194,10 @@ def gtsrb_visualize_label_scan_bottom_right_white_4():
 
     log_mapping = {}
 
-    # in the sample code, we only reverse engineer the infected label and
-    # one other uninfected label
+    # y_label list to analyze
     y_target_list = range(NUM_CLASSES)
     y_target_list.remove(Y_TARGET)
-    y_target_list = [Y_TARGET] + y_target_list[:1]
+    y_target_list = [Y_TARGET] + y_target_list
     for y_target in y_target_list:
 
         print('processing label %d' % y_target)

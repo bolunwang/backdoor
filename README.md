@@ -31,13 +31,13 @@ To execute the python script, simply run
 python gtsrb_visualize_example.py
 ```
 
-We already included a sample of [infected model](models/gtsrb_bottom_right_white_4_target_33.h5) for traffic sign recognition in the repo, along with the [testing data](data/gtsrb_dataset_int.h5) used for reverse engineering. The sample code uses this model/dateset by default.
+We already included a sample of [infected model](models/gtsrb_bottom_right_white_4_target_33.h5) for traffic sign recognition in the repo, along with the [testing data](data/gtsrb_dataset_int.h5) used for reverse engineering. The sample code uses this model/dateset by default. The entire process for examining all labels in the traffic sign recognition model takes roughly 10 min. All reverse engineered triggers (mask, delta) will be stored under RESULT_DIR. You can also specify which labels you would like to focus on. You could configure it yourself by changing the [following code](gtsrb_visualize_example.py#L197-L200).
 
 #### Anomaly Detection
 
 We use an anomaly detection algorithm that is based MAD (Median Absolute Deviation). A very useful explanation of MAD could be found [here](https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/). Our implementation reads all reversed triggers and detect any outlier with small size. Before you execute the code, please make sure the following configuration is correct.
 
-- **Path to reversed trigger**: you can specify the location where you put all reversed triggers [here](mad_outlier_detection.py#L19-L20). Filename format in the sample code is consistent with previous code for reverse engineering.
+- **Path to reversed trigger**: you can specify the location where you put all reversed triggers [here](mad_outlier_detection.py#L19-L20). Filename format in the sample code is consistent with previous code for reverse engineering. Our code only checks if there is any anomaly among reversed triggers under the specified folder. So be sure to include all triggers you would like to analyze in the folder.
 - **Meta info**: configure the correct meta information about the task and model correctly, so our analysis code could load reversed triggers with the correct shape. You need to specify the [input shape](mad_outlier_detection.py#L23-L25) and the [total # of labels](mad_outlier_detection.py#L28) in the model.
 
 To execute the sample code, simple run
