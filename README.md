@@ -1,4 +1,8 @@
 # Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks
+
+### BEFORE YOU RUN OUR CODE
+We appreciate your interest in our work and trying out our code. We've noticed several cases where incorrect configuration leads to poor performance of detection and mitigation. If you also observe low detection performance far away from what we presented in the paper, please feel free to open an issue in this repo or contact any of the authors directly. We are more than happy to help you debug your experiment and find out the correct configuration. Also feel free to take a look at previous issues in this repo. Someone might have ran into the same problem, and there might already be a fix.
+
 ### ABOUT
 
 This repository contains code implementation of the paper "[Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks](https://cs.ucsb.edu/~bolunwang/assets/docs/backdoor-sp19.pdf)", at *IEEE Security and Privacy 2019*.
