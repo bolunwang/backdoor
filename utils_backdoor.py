@@ -40,7 +40,7 @@ def load_dataset(data_filename, keys=None):
 
     ''' assume all datasets are numpy arrays '''
     dataset = {}
-    with h5py.File(data_filename) as hf:
+    with h5py.File(data_filename, 'r') as hf:
         if keys is None:
             for name in hf:
                 dataset[name] = np.array(hf.get(name))

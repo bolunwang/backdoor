@@ -372,9 +372,6 @@ class Visualizer:
             avg_loss = np.mean(loss_list)
             avg_loss_acc = np.mean(loss_acc_list)
 
-            # if step % 10 == 0:
-            #     self.reset_opt()
-
             # check to save best mask or not
             if avg_loss_acc >= self.attack_succ_threshold and avg_loss_reg < reg_best:
                 mask_best = K.eval(self.mask_tensor)

@@ -52,7 +52,7 @@ BATCH_SIZE = 32  # batch size used for optimization
 LR = 0.1  # learning rate
 STEPS = 1000  # total optimization iterations
 NB_SAMPLE = 1000  # number of samples in each mini batch
-MINI_BATCH = NB_SAMPLE / BATCH_SIZE  # mini batch size used for early stop
+MINI_BATCH = NB_SAMPLE // BATCH_SIZE  # mini batch size used for early stop
 INIT_COST = 1e-3  # initial weight used for balancing two objectives
 
 REGULARIZATION = 'l1'  # reg term to control the mask's norm
@@ -197,7 +197,7 @@ def gtsrb_visualize_label_scan_bottom_right_white_4():
     log_mapping = {}
 
     # y_label list to analyze
-    y_target_list = range(NUM_CLASSES)
+    y_target_list = list(range(NUM_CLASSES))
     y_target_list.remove(Y_TARGET)
     y_target_list = [Y_TARGET] + y_target_list
     for y_target in y_target_list:
