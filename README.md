@@ -16,7 +16,7 @@ Our code is implemented and tested on Keras with TensorFlow backend. Following p
 - `tensorflow-gpu==1.10.1`
 - `h5py==2.6.0`
 
-Our code is tested on `Python 2.7.12`
+Our code is tested on `Python 2.7.12` and `Python 3.6.8`
 
 ### HOWTO
 

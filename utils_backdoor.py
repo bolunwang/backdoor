@@ -12,10 +12,8 @@ import h5py
 
 
 def dump_image(x, filename, format):
-
     img = image.array_to_img(x, scale=False)
     img.save(filename, format)
-
     return
 
 

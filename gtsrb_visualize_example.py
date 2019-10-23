@@ -26,7 +26,7 @@ import utils_backdoor
 #        PARAMETERS          #
 ##############################
 
-DEVICE = '0'  # specify which GPU to use
+DEVICE = '3'  # specify which GPU to use
 
 DATA_DIR = 'data'  # data folder
 DATA_FILE = 'gtsrb_dataset_int.h5'  # dataset file
