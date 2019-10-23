@@ -5,10 +5,10 @@
 # @Link    : http://cs.ucsb.edu/~bolunwang
 
 
-import tensorflow as tf
-import numpy as np
-from keras.preprocessing import image
 import h5py
+import numpy as np
+import tensorflow as tf
+from keras.preprocessing import image
 
 
 def dump_image(x, filename, format):
@@ -18,7 +18,6 @@ def dump_image(x, filename, format):
 
 
 def fix_gpu_memory(mem_fraction=1):
-
     import keras.backend as K
 
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=mem_fraction)
@@ -35,7 +34,6 @@ def fix_gpu_memory(mem_fraction=1):
 
 
 def load_dataset(data_filename, keys=None):
-
     ''' assume all datasets are numpy arrays '''
     dataset = {}
     with h5py.File(data_filename, 'r') as hf:
