@@ -5,7 +5,7 @@ We appreciate your interest in our work and trying out our code. We've noticed s
 
 ### ABOUT
 
-This repository contains code implementation of the paper "[Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks](https://cs.ucsb.edu/~bolunwang/assets/docs/backdoor-sp19.pdf)", at *IEEE Security and Privacy 2019*.
+This repository contains code implementation of the paper "[Neural Cleanse: Identifying and Mitigating Backdoor Attacks in Neural Networks](https://cs.ucsb.edu/~bolunwang/assets/docs/backdoor-sp19.pdf)", at *IEEE Security and Privacy 2019*. The slides are [here](https://www.shawnshan.com/publication/backdoor-sp19-slides.pdf). 
 
 ### DEPENDENCIES
 
@@ -20,6 +20,10 @@ Our code is tested on `Python 2.7.12` and `Python 3.6.8`
 
 ### HOWTO
 
+#### Injecting Backdoor 
+
+For the GTSRB model, the backdoor injection code is under the [injection repo](https://github.com/bolunwang/backdoor/tree/master/injection). 
+You will need to download the training data from [here](https://drive.google.com/file/d/1kcveaJC3Ra-XDuaNqHzYeomMvU8d1npj/view?usp=sharing). 
 #### Reverse Engineering
 
 We include a sample script demonstrating how to perform the reverse engineering technique on an infected model. There are several parameters that need to be modified before running the code, which could be modified [here](gtsrb_visualize_example.py#L25-L27).
